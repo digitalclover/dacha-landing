@@ -1,0 +1,273 @@
+@import url("/css/normalize.css");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+
+@white: #d8c39c;
+@brown: #4b080b;
+@black: #1f1a19;
+@gray: #352724;
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.4em;
+  @media screen and (min-width: 30rem) {
+    font-size: 1.1rem;
+  }
+  @media screen and (min-width: 42rem) {
+    font-size: 1.2rem;
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: "EB Garamond", Georgia, serif;
+  line-height: 1em;
+}
+h1 {
+  font-size: 3em;
+}
+
+.container {
+  width: calc(100% - 2rem);
+  max-width: 64rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+main > header {
+  width: 100%;
+  background-color: @brown;
+  position: relative;
+  .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    transition: opacity 3s ease, background-position 13s linear;
+    background-repeat: no-repeat;
+    opacity: 1;
+    &.fade-out {
+      opacity: 0;
+    }
+    &.landscape {
+      background-size: auto 125vh;
+      @media screen and (min-width: 48rem) {
+        background-size: 125vw auto;
+      }
+    }
+    &.portrait {
+      background-size: 125vw auto;
+    }
+  }
+  .container {
+    position: relative;
+    height: 100vh;
+    z-index: 4;
+  }
+  img {
+    width: 70%;
+    max-width: 6em;
+    padding: 2rem;
+    background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0.5) 20%,
+      rgba(0, 0, 0, 0) 60%
+    );
+    @media screen and (min-width: 40rem) {
+      max-width: 8em;
+    }
+  }
+}
+
+#contact {
+  background-color: @brown;
+  color: @white;
+  padding: 5rem 0;
+  h1,
+  p {
+    margin: 0 0 1em;
+  }
+  a {
+    color: @white;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@keyframes bgPatter {
+  from {
+    background-position: 0vw 0vw;
+  }
+  to {
+    background-position: 40vw 40vw;
+  }
+}
+
+#about {
+  background-color: @white;
+  color: @white;
+  position: relative;
+  z-index: 1;
+  &.w-image {
+    background-image: url("../images/paper.webp");
+  }
+  .pattern {
+    background-size: 40vw 40vw;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    opacity: 0.9;
+    &.w-image {
+      background-image: url("../images/pattern.png");
+    }
+  }
+  .container {
+    min-height: 80vh;
+    max-width: 40rem;
+    position: relative;
+    z-index: 3;
+  }
+  .text-group {
+    background-color: @white;
+    color: @brown;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 2rem;
+    &.w-image {
+      background-image: url("../images/paper.webp");
+    }
+    @media screen and (min-width: 40rem) {
+      padding: 2rem 4rem;
+    }
+  }
+}
+
+.menu-group {
+  background-color: @black;
+  color: @white;
+  .container {
+    max-width: 92rem;
+    h1 {
+      margin: 2em 0 1em;
+    }
+    > ul {
+      display: flex;
+      padding: 0;
+      flex-direction: column;
+      justify-content: center;
+      list-style-type: none;
+      @media screen and (min-width: 40rem) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media screen and (min-width: 64rem) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media screen and (min-width: 82rem) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      > li {
+        margin: 2rem 0.5rem;
+        display: flex;
+        box-shadow: 0px 0px 1em rgba(0, 0, 0, 0);
+        overflow: hidden;
+        border-radius: 1rem;
+        transform: scale3d(1, 1, 1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        z-index: 1;
+        &:hover,
+        &:focus {
+          transform: scale3d(1.1, 1.1, 1);
+          box-shadow: 0px 0px 1em rgba(0, 0, 0, 1);
+          z-index: 2;
+        }
+        figure {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          justify-content: flex-start;
+          align-items: center;
+          margin: 0;
+          background-color: @gray;
+          text-shadow: 0px 0px 0.5rem @black;
+          img {
+            width: 100%;
+          }
+          ul {
+            padding-left: 1.5rem;
+            list-style-type: disc;
+          }
+          figcaption {
+            margin: 1rem 1rem 3rem;
+            min-width: 15rem;
+            max-width: 30rem;
+            h3 {
+              text-align: center;
+              font-size: 1.5em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#aboutDiana {
+  background: rgb(9, 201, 237);
+  background: radial-gradient(circle, #09c9ed 16%, #0d77a9 72%);
+  padding: 5rem 0;
+  color: white;
+  text-shadow: 0.05em 0.05em 0.25em #0d77a9;
+  .container {
+    flex-direction: column;
+    @media screen and (min-width: 48rem) {
+      flex-direction: row;
+    }
+    figure {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      @media screen and (min-width: 48rem) {
+        margin-right: 4rem;
+      }
+      img {
+        width: 90%;
+        max-width: 25rem;
+        box-shadow: 0.25rem 0.25rem 1rem #0d77a9;
+        border: 1rem solid white;
+        @media screen and (min-width: 48rem) {
+          max-height: 36rem;
+          border: 3rem solid white;
+        }
+      }
+      figcaption {
+        text-align: center;
+        margin: 1rem 0;
+      }
+    }
+    .text-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      h1,
+      p {
+        margin: 0.25em 0 1em;
+      }
+    }
+  }
+}
