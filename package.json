@@ -16,7 +16,7 @@
     "tsc": "npx tsc",
     "tsc-watch": "npx tsc -w",
     "build": "npm run less && npm run tsc",
-    "start": "npm run build && node server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
