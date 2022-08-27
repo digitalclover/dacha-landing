@@ -1,6 +1,6 @@
 const slideConfigs = [
   { target: '75% 50%' },
-  { target: '20% 20%' },
+  { target: '20% 40%' },
   { target: '65% 45%' },
   { target: '50% 50%' },
   { target: '50% 50%' },

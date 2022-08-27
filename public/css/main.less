@@ -1,5 +1,9 @@
-@import url("/css/normalize.css");
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+@import url('/css/normalize.css');
+
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../EBGaramond-Medium.ttf");
+}
 
 @white: #d8c39c;
 @brown: #4b080b;
@@ -21,7 +25,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: "EB Garamond", Georgia, serif;
+  font-family: 'EB Garamond', Georgia, serif;
   line-height: 1em;
 }
 h1 {
@@ -71,8 +75,8 @@ main > header {
     height: 100vh;
     z-index: 20;
   }
-  h1{
-    display:flex;
+  h1 {
+    display: flex;
     justify-content: center;
     align-items: center;
   }
@@ -80,15 +84,30 @@ main > header {
     width: 70%;
     max-width: 6em;
     padding: 2rem;
+    position: relative;
+    z-index: 2;
     background: radial-gradient(
       circle,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.5) 20%,
-      rgba(0, 0, 0, 0) 60%
+      rgba(75, 8, 11, 0.5) 0%,
+      rgba(75, 8, 11, 0.5) 20%,
+      rgba(75, 8, 11, 0) 60%
     );
     @media screen and (min-width: 40rem) {
       max-width: 8em;
     }
+  }
+  .extra-shadow {
+    background: radial-gradient(
+      circle,
+      rgba(75, 8, 11, .5) 0%,
+      rgba(75, 8, 11, 0) 60%
+    );
+    display: block;
+    width: 22rem;
+    height: 16rem;
+    position: absolute;
+    margin-top: 21rem;
+    z-index: 1;
   }
 }
 
@@ -96,7 +115,7 @@ main > header {
   background-color: @brown;
   color: @white;
   padding: 5rem 0;
-  h1{
+  h1 {
     text-align: center;
   }
   h1,
@@ -112,13 +131,14 @@ main > header {
   }
 }
 
-#about, #philosophy {
+#about,
+#philosophy {
   background-color: @white;
   color: @white;
   position: relative;
   z-index: 1;
   &.w-image {
-    background-image: url("../images/paper.webp");
+    background-image: url('../images/paper.webp');
   }
   .pattern {
     background-size: 60vw 60vw;
@@ -130,11 +150,11 @@ main > header {
     z-index: 2;
     display: block;
     opacity: 0.9;
-    @media screen and (min-width:64rem){
+    @media screen and (min-width: 64rem) {
       background-size: 620px 620px;
     }
     &.w-image {
-      background-image: url("../images/pattern.png");
+      background-image: url('../images/pattern.png');
     }
   }
   .container {
@@ -150,7 +170,7 @@ main > header {
     margin: 2rem 0;
     border-radius: 2rem;
     &.w-image {
-      background-image: url("../images/paper.webp");
+      background-image: url('../images/paper.webp');
     }
     @media screen and (min-width: 40rem) {
       padding: 2rem 4rem;
