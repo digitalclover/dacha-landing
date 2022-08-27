@@ -1,8 +1,8 @@
 @import url('/css/normalize.css');
 
 @font-face {
-  font-family: "EB Garamond";
-  src: url("../EBGaramond-Medium.ttf");
+  font-family: 'EB Garamond';
+  src: url('../EBGaramond-Medium.ttf');
 }
 
 @white: #d8c39c;
@@ -29,6 +29,7 @@ h3,
 h4 {
   font-family: 'EB Garamond', Georgia, serif;
   line-height: 1em;
+  font-weight: 500;
 }
 h1 {
   font-size: 3em;
@@ -101,7 +102,7 @@ main > header {
   .extra-shadow {
     background: radial-gradient(
       circle,
-      rgba(75, 8, 11, .5) 0%,
+      rgba(75, 8, 11, 0.5) 0%,
       rgba(75, 8, 11, 0) 60%
     );
     display: block;
@@ -116,13 +117,20 @@ main > header {
 #contact {
   background-color: @brown;
   color: @white;
-  padding: 5rem 0;
+  padding: 5rem 2rem;
   h1 {
     text-align: center;
   }
   h1,
   p {
     margin: 0 0 1em;
+  }
+  p {
+    max-width: 35rem;
+    text-align: center;
+    @media screen and (min-width: 40rem) {
+      text-align: left;
+    }
   }
   a {
     color: @white;
@@ -238,7 +246,7 @@ main > header {
             margin: 1rem;
             min-width: 15rem;
             max-width: 30rem;
-            display:flex;
+            display: flex;
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
@@ -246,15 +254,16 @@ main > header {
               text-align: center;
               font-size: 1.5em;
             }
-            h4{
-              margin: 0 0 .5rem 0;
-              em{
+            h4 {
+              margin: 0 0 0.5rem 0;
+              em {
                 font-family: @sans-serif;
                 font-weight: 500;
                 font-style: normal;
+                font-size: 0.8em;
               }
             }
-            aside{
+            aside {
               align-self: flex-end;
               margin-top: 1rem;
             }
@@ -302,17 +311,26 @@ main > header {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       width: 100%;
+      text-align: center;
+      @media screen and (min-width: 48rem) {
+        text-align: left;
+        align-items: flex-start;
+      }
       h1,
       p {
-        margin: 0.25em 0 1em;
+        margin: 0.25em 2rem 1em;
+      }
+      p {
+        max-width: 35rem;
       }
     }
   }
 }
 
-#backToTop{
-  display:flex;
+#backToTop {
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 8rem;
@@ -332,12 +350,15 @@ main > header {
   text-align: center;
   font-size: 0.8rem;
   text-transform: uppercase;
-  box-shadow: 0 0.5rem 1rem  rgba(75, 8, 11, 0.5);
-  transition: left .3s ease-out;
-  &.show{
+  box-shadow: 0 0.5rem 1rem rgba(75, 8, 11, 0.5);
+  transition: left 0.3s ease-out;
+  span {
+    padding: 0 0.5rem;
+  }
+  &.show {
     left: 0rem;
   }
-  svg{
+  svg {
     color: @brown;
     width: 2rem;
     height: auto;
