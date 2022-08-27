@@ -69,7 +69,7 @@ main > header {
   .container {
     position: relative;
     height: 100vh;
-    z-index: 4;
+    z-index: 20;
   }
   h1{
     display:flex;
@@ -112,16 +112,7 @@ main > header {
   }
 }
 
-@keyframes bgPatter {
-  from {
-    background-position: 0vw 0vw;
-  }
-  to {
-    background-position: 40vw 40vw;
-  }
-}
-
-#about {
+#about, #philosophy {
   background-color: @white;
   color: @white;
   position: relative;
@@ -130,7 +121,7 @@ main > header {
     background-image: url("../images/paper.webp");
   }
   .pattern {
-    background-size: 40vw 40vw;
+    background-size: 60vw 60vw;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -139,6 +130,9 @@ main > header {
     z-index: 2;
     display: block;
     opacity: 0.9;
+    @media screen and (min-width:64rem){
+      background-size: 620px 620px;
+    }
     &.w-image {
       background-image: url("../images/pattern.png");
     }
