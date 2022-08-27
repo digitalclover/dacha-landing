@@ -146,11 +146,43 @@ const checkRatios = () => {
   });
 };
 
+const movePageScroll = (start: number) => (timestamp: number) => {
+  if (!start) start = timestamp;
+  const elapsedTime = timestamp - start;
+  const percent = elapsedTime / 1_000;
+  const distance = Math.floor((window.scrollY * percent));
+  const newPosition = window.scrollY - distance;
+  if (newPosition > 0) {
+    window.scrollTo({ top: newPosition });
+    window.requestAnimationFrame(movePageScroll(start));
+  } else {
+    window.scrollTo({ top: 0 });
+  }
+};
+
+const handleTopButton = () => {
+  const topButton = document.querySelector('#backToTop');
+  topButton?.addEventListener('click', () =>
+    window.requestAnimationFrame(movePageScroll(0))
+  );
+  window.onscroll = () => {
+    const enable = window.scrollY > window.innerHeight * 2;
+    const visible = topButton?.classList.contains('show');
+    if (enable && !visible) {
+      topButton?.classList.add('show');
+    }
+    if (!enable && visible) {
+      topButton?.classList.remove('show');
+    }
+  };
+};
+
 window.onload = async () => {
   await startSlideshow();
   checkRatios();
   const lazyImages = document.querySelectorAll('.lazy');
   lazyImages.forEach((image) => intersectionObserver.observe(image));
+  handleTopButton();
 };
 
 window.addEventListener('resize', checkRatios);

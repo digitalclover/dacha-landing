@@ -9,9 +9,10 @@
 @brown: #4b080b;
 @black: #1f1a19;
 @gray: #352724;
+@sans-serif: Helvetica, Arial, sans-serif;
 
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: @sans-serif;
   font-size: 1rem;
   line-height: 1.4em;
   @media screen and (min-width: 30rem) {
@@ -24,7 +25,8 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: 'EB Garamond', Georgia, serif;
   line-height: 1em;
 }
@@ -131,8 +133,7 @@ main > header {
   }
 }
 
-#about,
-#philosophy {
+#about {
   background-color: @white;
   color: @white;
   position: relative;
@@ -234,12 +235,28 @@ main > header {
             list-style-type: disc;
           }
           figcaption {
-            margin: 1rem 1rem 3rem;
+            margin: 1rem;
             min-width: 15rem;
             max-width: 30rem;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
             h3 {
               text-align: center;
               font-size: 1.5em;
+            }
+            h4{
+              margin: 0 0 .5rem 0;
+              em{
+                font-family: @sans-serif;
+                font-weight: 500;
+                font-style: normal;
+              }
+            }
+            aside{
+              align-self: flex-end;
+              margin-top: 1rem;
             }
           }
         }
@@ -291,5 +308,38 @@ main > header {
         margin: 0.25em 0 1em;
       }
     }
+  }
+}
+
+#backToTop{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width: 8rem;
+  height: 3rem;
+  padding: 0 0 0 1rem;
+  margin: 0;
+  position: fixed;
+  bottom: 3rem;
+  left: -10rem;
+  background-color: @white;
+  color: @brown;
+  z-index: 100;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  outline: none;
+  border: none;
+  text-align: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  box-shadow: 0 0.5rem 1rem  rgba(75, 8, 11, 0.5);
+  transition: left .3s ease-out;
+  &.show{
+    left: 0rem;
+  }
+  svg{
+    color: @brown;
+    width: 2rem;
+    height: auto;
   }
 }
