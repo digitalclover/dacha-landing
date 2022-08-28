@@ -80,7 +80,7 @@ const handlePrevSlide = (container: HTMLElement, count: number) => {
     prevSlide.classList.add('fade-out');
     setTimeout(() => {
       container.removeChild(prevSlide);
-    }, 3_500);
+    }, 1_000);
   }
 };
 
@@ -89,7 +89,7 @@ const slideshowInterval = () =>
     const lastSlide = currentSlide === slideshowLength;
     currentSlide = lastSlide ? 1 : currentSlide + 1;
     await animateBackground(currentSlide);
-  }, 10_000);
+  }, 3_000);
 
 const animateBackground = async (count = 1) => {
   const newSlide = await getNewSlide(count);
