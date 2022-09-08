@@ -14,7 +14,7 @@
     "start-dev": "npm run tsc-server && node server.js && npm run tsc-watch",
     "less": "npx lessc ./public/css/main.less ./public/css/main.css",
     "tsc": "npx tsc src/main --outfile 'public/js/main.js'",
-    "tsc-server": "npx tsc server",
+    "tsc-server": "npx tsc server --esModuleInterop",
     "tsc-watch": "npx tsc -w",
     "build": "npm run less && npm run tsc && npm run tsc-server",
     "start": "node server.js"
