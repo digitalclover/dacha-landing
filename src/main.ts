@@ -160,8 +160,9 @@ const movePageScroll = (start: number) => (timestamp: number) => {
   }
 };
 
-const handleTopButton = () => {
+const handleHoverButtons = () => {
   const topButton = document.querySelector('#backToTop');
+  const langButton = document.querySelector('#lang a');
   topButton?.addEventListener('click', () =>
     window.requestAnimationFrame(movePageScroll(0))
   );
@@ -170,9 +171,11 @@ const handleTopButton = () => {
     const visible = topButton?.classList.contains('show');
     if (enable && !visible) {
       topButton?.classList.add('show');
+      langButton?.classList.remove('show');
     }
     if (!enable && visible) {
       topButton?.classList.remove('show');
+      langButton?.classList.add('show');
     }
   };
 };
@@ -182,7 +185,7 @@ window.onload = async () => {
   checkRatios();
   const lazyImages = document.querySelectorAll('.lazy');
   lazyImages.forEach((image) => intersectionObserver.observe(image));
-  handleTopButton();
+  handleHoverButtons();
 };
 
 window.addEventListener('resize', checkRatios);

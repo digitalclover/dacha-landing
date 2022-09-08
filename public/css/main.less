@@ -401,6 +401,9 @@ main > header {
   text-transform: uppercase;
   box-shadow: 0 0.5rem 1rem rgba(75, 8, 11, 0.5);
   transition: left 0.3s ease-out;
+  &:hover {
+    cursor: pointer;
+  }
   .ja & {
     width: 10rem;
   }
@@ -414,5 +417,26 @@ main > header {
     color: @brown;
     width: 2rem;
     height: auto;
+  }
+}
+
+#lang a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8rem;
+  height: 3rem;
+  background-color: @white;
+  color: @brown;
+  z-index: 100;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  position: fixed;
+  top: -5rem;
+  right: 5rem;
+  box-shadow: 0 0.5rem 1rem rgba(75, 8, 11, 0.5);
+  transition: top 0.3s ease-out;
+  &.show {
+    top: 0rem;
   }
 }
