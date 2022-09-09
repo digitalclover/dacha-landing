@@ -7,7 +7,8 @@
 
 @white: #d8c39c;
 @brown: #4b080b;
-@black: #1f1a19;
+@orange: #e45d0f;
+@black: rgb(31, 26, 25);
 @gray: #352724;
 @sans-serif: Helvetica, Arial, sans-serif;
 
@@ -273,6 +274,25 @@ main > header {
           box-shadow: 0px 0px 1em rgba(0, 0, 0, 1);
           z-index: 2;
         }
+        .popular {
+          display: flex;
+          background-color: @orange;
+          color: #d8c39c;
+          padding: 0.25rem 3rem;
+          position: absolute;
+          right: -3rem;
+          rotate: 45deg;
+          top: 2.5rem;
+          min-width: 7rem;
+          align-items: center;
+          justify-content: center;
+          text-shadow: 0px 0px .25rem rgba(31, 26, 25, 0.5);
+          box-shadow: 0px .15rem .5rem rgba(31, 26, 25, 0.75);
+          .ja & {
+            font-size: 1.2em;
+            font-weight: 600;
+          }
+        }
         figure {
           display: flex;
           flex-direction: column;
@@ -281,6 +301,7 @@ main > header {
           align-items: center;
           margin: 0;
           background-color: @gray;
+          border: 2px solid @black;
           text-shadow: 0px 0px 0.5rem @black;
           img {
             width: 100%;

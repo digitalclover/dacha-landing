@@ -46,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   const isJA = req.acceptsLanguages(['ja']);
   const filename = isJA ? 'ja' : 'en';
+  res.setHeader('Content-Language', isJA ? 'ja-JP' : 'en-JP');
   res.sendFile(path.join(__dirname, `public/${filename}.html`));
 });
 const server = http.createServer(app);
