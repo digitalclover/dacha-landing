@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-JP">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cake Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="./css/calc.css" />
+    <meta name="theme-color" content="#4b080b" />
+  </head>
+  <body>
+    <main>
+      <h1>Cake Calculator</h1>
+      <form>
+        <div id="original">
+          <h2>Original</h2>
+          <label for="originalShape"> Shape</label>
+          <select name="originalShape" id="originalShape">
+            <option value="circle" selected>Circle</option>
+            <option value="square">Square</option>
+          </select>
+          <label for="originalValue">Radius</label>
+          <input
+            type="number"
+            name="originalValue"
+            id="originalValue"
+            min="12"
+            max="18"
+            step="2"
+            value="18"
+          />
+        </div>
+
+        <div id="target">
+          <h2>Target</h2>
+          <label for="targetShape">Shape</label>
+          <select name="targetShape" id="targetShape">
+            <option value="circle" selected>Circle</option>
+            <option value="square">Square</option>
+          </select>
+          <label for="targetValue">Radius</label>
+          <input
+            type="number"
+            name="targetValue"
+            id="targetValue"
+            min="12"
+            max="18"
+            step="2"
+            value="16"
+          />
+        </div>
+      </form>
+      <h2 id="answer">0</h2>
+    </main>
+    <script src="js/calc.js" defer></script>
+  </body>
+</html>

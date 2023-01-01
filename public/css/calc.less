@@ -1,0 +1,30 @@
+@black: rgb(31, 26, 25);
+@gray: #352724;
+@white: #d8c39c;
+
+body {
+  background-color: @black;
+  color: @white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+  form {
+    display: flex;
+    width: 100%;
+    max-width: 30rem;
+    justify-content: space-around;
+    > div {
+      display: flex;
+      flex-direction: column;
+      min-width: 8rem;
+      padding: 0 1rem 2rem;
+      background-color: @gray;
+      border-radius: 1rem;
+      select{
+        margin-bottom: .5rem;
+      }
+    }
+  }
+  h1,h2{
+    text-align: center;
+  }
+}
