@@ -181,11 +181,11 @@ const handleHoverButtons = () => {
 };
 
 window.onload = async () => {
-  await startSlideshow();
-  checkRatios();
+  // await startSlideshow();
+  // checkRatios();
   const lazyImages = document.querySelectorAll('.lazy');
   lazyImages.forEach((image) => intersectionObserver.observe(image));
   handleHoverButtons();
 };
 
-window.addEventListener('resize', checkRatios);
+// window.addEventListener('resize', checkRatios);
