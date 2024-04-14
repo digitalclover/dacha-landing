@@ -1,18 +1,21 @@
 use dacha_landing::run;
 
+fn spawn_app() -> String {
+    let (addr, server) = run().unwrap();
+    tokio::spawn(server);
+    format!("http://{}", addr)
+}
+
 #[tokio::test]
 async fn health_check_works() {
-    let (server, addr, tx) = run();
-    tokio::spawn(server);
+    let address = spawn_app();
     let client = reqwest::Client::new();
-    let address = format!("http://{}/health_check", addr);
     let response = client
-        .get(address)
+        .get(format!("{}/health_check", address))
         .send()
         .await
         .expect("Failed to execute request");
 
     assert!(response.status().is_success());
     assert_eq!(Some(0), response.content_length());
-    let _ = tx.send(());
 }

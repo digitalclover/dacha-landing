@@ -2,7 +2,7 @@ use dacha_landing::run;
 
 #[tokio::main]
 async fn main() {
-    let (server, addr, _tx) = run();
+    let (addr, server) = run().unwrap();
     println!("Serving at http://{}", addr);
     server.await;
 }
