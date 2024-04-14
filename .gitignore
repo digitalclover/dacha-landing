@@ -9,3 +9,7 @@ public/css/calc.css
 public/js/main.js
 public/js/calc.js
 *.js
+
+# Added by cargo
+
+/target

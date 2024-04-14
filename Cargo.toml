@@ -1,0 +1,19 @@
+[package]
+name = "dacha-landing"
+version = "0.1.0"
+authors = ["Joshua McCarthy"]
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "dacha-landing"
+
+[dependencies]
+tokio = { version = "1.37.0", features = ["full"] }
+warp = "0.3.7"
+
+[dev-dependencies]
+reqwest = "0.12.3"
