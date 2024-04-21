@@ -13,7 +13,7 @@ name = "dacha-landing"
 
 [dependencies]
 tokio = { version = "1.37.0", features = ["full"] }
-warp = "0.3.7"
+warp = { version = "0.3.7", features = ["compression"] }
 
 [dev-dependencies]
 reqwest = "0.12.3"
