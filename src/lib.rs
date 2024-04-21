@@ -1,5 +1,6 @@
-use std::net::SocketAddr;
-use warp::{http::header::HeaderValue, Error, Filter, Future, Rejection, Reply};
+use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use tokio::sync::oneshot::{self, Sender};
+use warp::{http::header::HeaderValue, Filter, Future, Rejection, Reply};
 
 const SITE_FOLDER: &str = "public";
 const EN_TARGET: &str = "en";
@@ -26,7 +27,7 @@ fn get_index() -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
         })
 }
 
-pub fn run() -> Result<(SocketAddr, impl Future<Output = ()> + 'static), Error> {
+pub fn run(port: u16) -> (SocketAddr, Sender<()>, impl Future<Output = ()> + 'static) {
     let health_check = warp::path("health_check").and(warp::get()).map(warp::reply);
 
     let assets = warp::fs::dir(SITE_FOLDER)
@@ -41,5 +42,13 @@ pub fn run() -> Result<(SocketAddr, impl Future<Output = ()> + 'static), Error> 
     let index = get_index();
     let site = assets.or(index);
     let routes = health_check.or(site);
-    warp::serve(routes).try_bind_ephemeral(([127, 0, 0, 1], 0))
+
+    let (tx, rx) = oneshot::channel::<()>();
+
+    let target_addr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), port);
+    let (addr, server) = warp::serve(routes).bind_with_graceful_shutdown(target_addr, async {
+        rx.await.ok();
+    });
+
+    (addr, tx, server)
 }
