@@ -33,13 +33,13 @@ const getDefaultFontSize = () => {
 
 const defaultFontSize = getDefaultFontSize() || 16;
 
-const getImage = (count: number) => {
+const getImage = (count) => {
   return `/images/slideshow/slide${count}_large.jpg`;
 };
 
 const getBackgroundRatio = (
-  count: number
-): Promise<'landscape' | 'portrait'> => {
+  count 
+) => {
   const image = new Image();
   return new Promise((res, rej) => {
     image.addEventListener('load', () => {
@@ -55,7 +55,7 @@ const getBackgroundRatio = (
 const getWindowRatio = () =>
   window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
 
-const getNewSlide = async (count: number) => {
+const getNewSlide = async (count) => {
   const slide = document.createElement('div');
   const ratio = await getBackgroundRatio(count);
   slide.classList.add(`slide-${count}`);
@@ -70,13 +70,13 @@ const getNewSlide = async (count: number) => {
   return slide;
 };
 
-const handlePrevSlide = (container: HTMLElement, count: number) => {
+const handlePrevSlide = (container, count) => {
   const prevCount = count === 1 ? slideshowLength : count - 1;
-  const prevSlide: HTMLElement | null = container.querySelector(
+  const prevSlide = container.querySelector(
     `.slide-${prevCount}`
   );
   if (prevSlide) {
-    prevSlide!.style.zIndex = `${count + 1}`;
+    prevSlide.style.zIndex = `${count + 1}`;
     prevSlide.classList.add('fade-out');
     setTimeout(() => {
       container.removeChild(prevSlide);
@@ -94,7 +94,7 @@ const slideshowInterval = () =>
 const animateBackground = async (count = 1) => {
   const newSlide = await getNewSlide(count);
   const container = document.querySelector('header');
-  container!.append(newSlide);
+  container.append(newSlide);
   const center = `50% 50%`;
   checkRatios();
 
@@ -103,7 +103,7 @@ const animateBackground = async (count = 1) => {
       slideConfigs[count - 1].target || center
     }`;
   }, 100);
-  handlePrevSlide(container!, count);
+  handlePrevSlide(container, count);
 };
 
 const startSlideshow = async () => {
@@ -111,7 +111,7 @@ const startSlideshow = async () => {
   slideshowInterval();
 };
 
-const checkLazyBgImages = (entry: IntersectionObserverEntry) => {
+const checkLazyBgImages = (entry) => {
   const isOverlapping = entry.intersectionRatio > 0;
   const isLazy = entry.target.classList.contains('lazy');
   const isLoaded = entry.target.classList.contains('w_image');
@@ -146,7 +146,7 @@ const checkRatios = () => {
   });
 };
 
-const movePageScroll = (start: number) => (timestamp: number) => {
+const movePageScroll = (start) => (timestamp) => {
   if (!start) start = timestamp;
   const elapsedTime = timestamp - start;
   const percent = elapsedTime / 1_000;

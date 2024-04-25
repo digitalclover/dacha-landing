@@ -7,24 +7,26 @@ const EN_TARGET: &str = "en";
 const CONTENT_CONTROL: &str = "max-age=604800,public";
 
 fn get_index() -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-    warp::header::value("Accept-Language")
-        .map(|value: HeaderValue| match value.to_str() {
-            Ok(lang) if (lang.contains(EN_TARGET)) => "en",
-            _ => "ja",
-        })
-        .map(|lang| {
-            let path = format!("/{}.html", lang)
-                .parse::<warp::http::Uri>()
-                .unwrap();
-            warp::reply::with_header(warp::redirect::see_other(path), "Content-Language", lang)
-        })
-        .map(|reply| {
-            warp::reply::with_header(
-                reply,
-                "Content-Control",
-                format!("{},public", CONTENT_CONTROL),
-            )
-        })
+    warp::path::end().and(
+        warp::header::value("Accept-Language")
+            .map(|value: HeaderValue| match value.to_str() {
+                Ok(lang) if (lang.contains(EN_TARGET)) => "en",
+                _ => "ja",
+            })
+            .map(|lang| {
+                let path = format!("/{}.html", lang)
+                    .parse::<warp::http::Uri>()
+                    .unwrap();
+                warp::reply::with_header(warp::redirect::see_other(path), "Content-Language", lang)
+            })
+            .map(|reply| {
+                warp::reply::with_header(
+                    reply,
+                    "Content-Control",
+                    format!("{},public", CONTENT_CONTROL),
+                )
+            }),
+    )
 }
 
 pub fn run(port: u16) -> (SocketAddr, Sender<()>, impl Future<Output = ()> + 'static) {
