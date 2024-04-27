@@ -31,13 +31,10 @@ const getArea = (source, type) => {
 };
 
 const calculate = () => {
-  console.log('calculating...');
   const ogShapeType = original.shape.value;
-  console.log('ogShapeType', ogShapeType);
   const ogArea = getArea('original', ogShapeType);
 
   const targetShapeType = target.shape?.value;
-  console.log('targetShapeType', targetShapeType);
   const targetValue = getArea('target', targetShapeType);
 
   const finalValue = (targetValue / ogArea).toLocaleString('ru', {

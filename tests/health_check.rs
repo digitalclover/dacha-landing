@@ -2,7 +2,7 @@ use dacha_landing::run;
 use tokio::sync::oneshot::Sender;
 
 fn spawn_app() -> (String, Sender<()>) {
-    let (addr, tx, server) = run(0);
+    let (addr, tx, server) = run();
     println!("{}", addr);
     tokio::spawn(server);
     (format!("http://{}", addr), tx)

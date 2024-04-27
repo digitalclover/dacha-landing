@@ -1,6 +1,9 @@
 name: Build
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - main
 
 env:
   CARGO_TERM_COLOR: always
@@ -40,14 +43,71 @@ jobs:
         run: cargo clippy -- -D warnings
 
   coverage:
-    name: Code coverage
+    name: Code Coverage
     runs-on: ubuntu-latest
     container:
       image: xd009642/tarpaulin
       options: --security-opt seccomp=unconfined
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Generate code coverage
-        run: |
+      - name: Generate Code Coverage
+        run: 
           cargo tarpaulin --verbose --workspace
+
+  build:
+    name: Compiling Release Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Building
+        run: cargo build -r 
+      - name: Archive Release Build
+        uses: actions/upload-artifact@v4
+        with: 
+          name: release-build
+          path: |
+            target/release/dacha-landing
+          retention-days: 1
+
+  deploy:
+    name: Deploy build to volumes
+    needs: [test, fmt, clippy, coverage, build]
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Download Release Build
+        uses: actions/download-artifact@v4 
+        with:
+          name: release-build
+      - name: Azure Authentication
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Set Cert File
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > private.pem
+          sudo chmod 600 private.pem
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Stop Current Runtime
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az vm run-command invoke -g Dacha -n dacha-server --command-id RunShellScript --scripts "sudo systemctl stop dacha.service"
+      - name: Upload New Release Build
+        run:
+          scp -i private.pem dacha-landing dacha-admin@20.222.178.13:/home/dacha-admin/
+      - name: Delete Cert
+        run:
+          rm private.pem
+      - name: Restart Current Runtime
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az vm run-command invoke -g Dacha -n dacha-server --command-id RunShellScript --scripts "sudo systemctl restart dacha.service"

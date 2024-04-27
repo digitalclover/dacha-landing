@@ -1,3 +1,5 @@
+console.log(`Seriously, my wife's cakes are fantasic!`);
+
 const slideConfigs = [
   { target: '75% 50%' },
   { target: '20% 40%' },

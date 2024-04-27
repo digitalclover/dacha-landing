@@ -1,0 +1,27 @@
+body {
+  background-color: #1f1a19;
+  color: #d8c39c;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.2em;
+}
+body form {
+  display: flex;
+  width: 100%;
+  max-width: 30rem;
+  justify-content: space-around;
+}
+body form > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 8rem;
+  padding: 0 1rem 2rem;
+  background-color: #352724;
+  border-radius: 1rem;
+}
+body form > div select {
+  margin-bottom: 0.5rem;
+}
+body h1,
+body h2 {
+  text-align: center;
+}
