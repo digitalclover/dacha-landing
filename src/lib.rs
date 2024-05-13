@@ -1,9 +1,9 @@
 use std::env;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use tokio::sync::oneshot::{self, Sender};
-use warp::{http::header::HeaderValue, Filter, Future, Rejection, Reply};
+use warp::reject::Rejection;
+use warp::{http::Uri, Filter, Future, Reply};
 
-const EN_TARGET: &str = "en";
 const CONTENT_CONTROL: &str = "max-age=604800,public";
 
 fn get_site_folder() -> &'static str {
@@ -13,27 +13,16 @@ fn get_site_folder() -> &'static str {
     }
 }
 
-fn get_index() -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
-    warp::path::end().and(
-        warp::header::value("Accept-Language")
-            .map(|value: HeaderValue| match value.to_str() {
-                Ok(lang) if (lang.contains(EN_TARGET)) => "en",
-                _ => "ja",
-            })
-            .map(|lang| {
-                let path = format!("/{}.html", lang)
-                    .parse::<warp::http::Uri>()
-                    .unwrap();
-                warp::reply::with_header(warp::redirect::see_other(path), "Content-Language", lang)
-            })
-            .map(|reply| {
-                warp::reply::with_header(
-                    reply,
-                    "Content-Control",
-                    format!("{},public", CONTENT_CONTROL),
-                )
-            }),
-    )
+fn handle_index() -> impl Filter<Extract = impl Reply, Error = Rejection> + Clone {
+    warp::path::end().and(warp::header::optional::<String>("Accept-Language").map(
+        |lang_header: Option<String>| {
+            if lang_header.map_or(false, |lang| lang.contains("en")) {
+                warp::redirect::temporary(Uri::from_static("/en.html"))
+            } else {
+                warp::redirect::temporary(Uri::from_static("/ja.html"))
+            }
+        },
+    ))
 }
 
 pub fn run() -> (SocketAddr, Sender<()>, impl Future<Output = ()> + 'static) {
@@ -48,7 +37,7 @@ pub fn run() -> (SocketAddr, Sender<()>, impl Future<Output = ()> + 'static) {
                 format!("{},public", CONTENT_CONTROL),
             )
         });
-    let index = get_index();
+    let index = handle_index();
     let site = assets.or(index);
     let routes = health_check.or(site);
 
