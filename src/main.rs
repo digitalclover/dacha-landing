@@ -1,4 +1,4 @@
-use dacha_landing::run;
+use dacha_landing::startup::run;
 
 #[tokio::main]
 async fn main() {

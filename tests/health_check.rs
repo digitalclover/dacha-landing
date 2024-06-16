@@ -1,4 +1,4 @@
-use dacha_landing::run;
+use dacha_landing::startup::run;
 use tokio::sync::oneshot::Sender;
 
 fn spawn_app() -> (String, Sender<()>) {
