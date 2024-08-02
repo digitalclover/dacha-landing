@@ -1,6 +1,6 @@
 name: Build
 
-on: 
+on:
   push:
     branches:
       - main
@@ -52,34 +52,51 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Generate Code Coverage
-        run: 
-          cargo tarpaulin --verbose --workspace
+        run: cargo tarpaulin --verbose --workspace
 
-  build:
-    name: Compiling Release Build
+  build_server:
+    name: Compiling Server Release Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
-      - name: Building
-        run: cargo build -r 
-      - name: Archive Release Build
+      - name: Building Rust Server
+        run: cargo build -r
+      - name: Archive Server Release Build
         uses: actions/upload-artifact@v4
-        with: 
+        with:
           name: release-build
-          path: |
-            target/release/dacha-landing
+          path: target/release/dacha-landing
+          retention-days: 1
+
+  build_frontend:
+    name: Compiling Static Website Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Building Styles
+        run: npm i -g less && lessc src/less/main.less public/css/main.css && lessc src/less/calc.less public/css/calc.css
+      - name: Archive Static Website Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-build
+          path: public/
           retention-days: 1
 
   deploy:
     name: Deploy build to volumes
-    needs: [test, fmt, clippy, coverage, build]
+    needs: [test, fmt, clippy, coverage, build_server, build_frontend]
     runs-on: ubuntu-latest
-    steps: 
-      - name: Download Release Build
-        uses: actions/download-artifact@v4 
+    steps:
+      - name: Download Server Release Build
+        uses: actions/download-artifact@v4
         with:
           name: release-build
+      - name: Download Static Website Files
+        uses: actions/download-artifact@v4
+        with:
+          name: public-build
+          path: public
       - name: Azure Authentication
         uses: azure/login@v2
         with:
@@ -100,11 +117,11 @@ jobs:
           inlineScript: |
             az vm run-command invoke -g Dacha -n dacha-server --command-id RunShellScript --scripts "sudo systemctl stop dacha.service"
       - name: Upload New Release Build
-        run:
-          scp -i private.pem dacha-landing dacha-admin@20.222.178.13:/home/dacha-admin/
+        run: scp -i private.pem dacha-landing dacha-admin@20.222.178.13:/home/dacha-admin/
+      - name: Upload Public Directory
+        run: scp -i private.pem -r public dacha-admin@20.222.178.13:/home/dacha-admin/
       - name: Delete Cert
-        run:
-          rm private.pem
+        run: rm private.pem
       - name: Restart Current Runtime
         uses: azure/cli@v2
         with:
