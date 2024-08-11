@@ -14,6 +14,7 @@ name = "dacha-landing"
 [dependencies]
 tokio = { version = "1.37.0", features = ["full"] }
 warp = { version = "0.3.7", features = ["compression"] }
+serde = { version = "1", features = ["derive"] }
 sqlx = { version = "0.7", features = [
   "runtime-tokio-rustls",
   "macros",

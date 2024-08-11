@@ -3,12 +3,13 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use tokio::sync::oneshot::{self, Sender};
 use warp::{Filter, Future};
 
-use crate::routes::{health_check, static_site};
+use crate::routes::{health_check, register, static_site};
 
 pub fn run() -> (SocketAddr, Sender<()>, impl Future<Output = ()> + 'static) {
     let site = static_site();
     let health_check = health_check();
-    let routes = health_check.or(site);
+    let register = register();
+    let routes = health_check.or(register).or(site);
 
     let (tx, rx) = oneshot::channel::<()>();
     let (local_ip, port) = get_local_ip();
